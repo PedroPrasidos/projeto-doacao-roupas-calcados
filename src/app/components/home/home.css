@@ -1,0 +1,40 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  min-height: 80vh;
+  background-color: #F5F5F5;
+}
+
+h1 {
+  font-size: 24px;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+}
+
+p {
+  color: #555;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.botoes {
+  display: flex;
+  gap: 16px;
+}
+
+button {
+  background-color: #5B2D8E;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #7C5CBF;
+}
