@@ -1,23 +1,85 @@
 .header {
-  background-color: #ffffff;
-  padding: 12px 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: white;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.header-content {
+.header-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
 }
+
+.menu-icon { font-size: 1.3rem; cursor: pointer; }
 
 .logo {
-  font-size: 20px;
+  font-size: 1.3rem;
   font-weight: bold;
-  color: #5B2D8E;
+  color: #7b2db0;
 }
 
-.menu-icon, .perfil-icon {
-  font-size: 22px;
-  cursor: pointer;
-  color: #5B2D8E;
+.perfil-icon {
+  font-size: 1.3rem;
+  text-decoration: none;
 }
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 8px 0;
+  border-top: 1px solid #f0e6ff;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 0.95rem;
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.nav a.ativo {
+  color: #7b2db0;
+  background: #f3e8ff;
+  font-weight: 600;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+}
+
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 220px;
+  background: #7b2db0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 24px 24px;
+  gap: 8px;
+}
+
+.menu-lateral a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-lateral a:hover { background: rgba(255,255,255,0.3); }

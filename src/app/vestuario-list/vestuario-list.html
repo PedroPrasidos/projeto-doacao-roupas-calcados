@@ -1,0 +1,15 @@
+<div class="pagina">
+  <h2>Explore à vontade!</h2>
+  <div class="grid">
+    @for (item of itens; track item.id) {
+      <div class="card" [routerLink]="['/vestuario', item.id]">
+        <div class="card-imagem">👕</div>
+        <div class="card-info">
+          <p class="card-nome">{{ item.nome }}</p>
+          <p class="card-local">{{ item.cidade }} - {{ item.estado }}</p>
+        </div>
+        <button class="btn-interesse">Registrar Interesse</button>
+      </div>
+    }
+  </div>
+</div>

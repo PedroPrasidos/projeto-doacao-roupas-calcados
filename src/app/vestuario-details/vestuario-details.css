@@ -1,0 +1,56 @@
+.pagina { padding: 16px; }
+
+.btn-voltar {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #7b2db0;
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.imagem-grande {
+  background: #1a1a1a;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+h2 { font-size: 1.2rem; margin-bottom: 12px; }
+
+.atributos {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+.atributos div { display: flex; flex-direction: column; }
+.atributos span { font-size: 0.75rem; color: #888; }
+.atributos strong { font-size: 0.95rem; }
+
+.doador { color: #7b2db0; font-weight: bold; }
+
+.btn-interesse {
+  width: 100%;
+  background: #7b2db0;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 16px;
+}

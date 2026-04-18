@@ -1,0 +1,42 @@
+.pagina { padding: 16px; }
+
+h2 { font-weight: bold; font-size: 1.3rem; margin-bottom: 16px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+.card-imagem {
+  background: #f3e8ff;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.card-info { padding: 8px 10px; }
+.card-nome { font-size: 0.85rem; font-weight: 600; margin: 0 0 4px; }
+.card-local { font-size: 0.75rem; color: #888; margin: 0; }
+
+.btn-interesse {
+  width: 100%;
+  background: #7b2db0;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.btn-interesse:hover { background: #5e1f8a; }

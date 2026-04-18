@@ -11,4 +11,8 @@ export class ServiceRoupas {
   listarRoupas(){
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  criarRoupa(roupa: any){
+    return this.http.post<any>(this.apiUrl, roupa);
+  }
 }

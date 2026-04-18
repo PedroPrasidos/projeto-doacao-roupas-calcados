@@ -1,9 +1,24 @@
 <header class="header">
-  <div class="header-content">
-    <span class="menu-icon">☰</span>
-    <div class="logo">
-      <span>💜 WearDon</span>
-    </div>
-    <span class="perfil-icon">👤</span>
+  <div class="header-top">
+    <span class="menu-icon" (click)="toggleMenu()">☰</span>
+    <div class="logo">💜 WearDon</div>
+    <a routerLink="/usuario/novo" class="perfil-icon" (click)="fecharMenu()">👤</a>
   </div>
+
+  <nav class="nav">
+    <a routerLink="/vestuario" routerLinkActive="ativo"
+       [routerLinkActiveOptions]="{exact:true}">Explorar</a>
+    <a routerLink="/vestuario/novo" routerLinkActive="ativo">Doar</a>
+  </nav>
+
+  @if (menuAberto) {
+    <div class="overlay" (click)="fecharMenu()"></div>
+    <div class="menu-lateral">
+      <a routerLink="/vestuario/novo" (click)="fecharMenu()">Cadastrar Doação</a>
+      <a routerLink="/vestuario" (click)="fecharMenu()">Histórico</a>
+      <a routerLink="/usuario/novo" (click)="fecharMenu()">Perfil</a>
+      <a (click)="fecharMenu()">Configurações</a>
+      <a (click)="fecharMenu()">Sobre</a>
+    </div>
+  }
 </header>
