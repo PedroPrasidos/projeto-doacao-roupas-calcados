@@ -1,54 +1,54 @@
 .pagina {
-  min-height: 100vh;
   background: #F5F3FF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 24px;
+  min-height: 100vh;
+  padding: 32px 20px 48px;
   box-sizing: border-box;
 }
 
 .card-form {
   background: #FFFFFF;
   border-radius: 20px;
-  padding: 48px 40px;
-  width: 100%;
-  max-width: 560px;
+  padding: 40px;
+  max-width: 620px;
+  margin: 0 auto;
   border: 0.5px solid #E5E7EB;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #6B21A8;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
 }
-.logo-icone { font-size: 2rem; }
-.logo-texto { font-size: 1.6rem; font-weight: 700; color: #6B21A8; }
+.btn-voltar:hover { text-decoration: underline; }
 
 h1 { font-size: 1.5rem; font-weight: 700; color: #1C1C1E; margin: 0 0 6px; }
 
-.subtitulo { font-size: 0.95rem; color: #6B7280; margin: 0 0 32px; }
+.subtitulo { font-size: 0.95rem; color: #6B7280; margin: 0 0 28px; }
 
-.secao { margin-bottom: 28px; }
+.secao { margin-bottom: 24px; }
 
 .secao-titulo {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #6B21A8;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   padding-bottom: 8px;
   border-bottom: 1.5px solid #EDE9FE;
 }
 
-.campo { margin-bottom: 16px; }
+.campo { margin-bottom: 14px; }
 
 .linha-dupla {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 label {
@@ -61,7 +61,7 @@ label {
 
 .obrigatorio { color: #6B21A8; }
 
-input {
+input, select, textarea {
   width: 100%;
   padding: 11px 14px;
   border: 1.5px solid #E5E7EB;
@@ -72,12 +72,15 @@ input {
   box-sizing: border-box;
   outline: none;
   transition: border-color 0.2s;
+  font-family: inherit;
 }
 
-input:focus {
+input:focus, select:focus, textarea:focus {
   border-color: #6B21A8;
   box-shadow: 0 0 0 3px rgba(107, 33, 168, 0.1);
 }
+
+textarea { resize: vertical; min-height: 90px; }
 
 .erro {
   background: #FEF2F2;
@@ -99,7 +102,7 @@ input:focus {
   margin-bottom: 16px;
 }
 
-.btn-cadastrar {
+.btn-salvar {
   width: 100%;
   background: #6B21A8;
   color: #FFFFFF;
@@ -113,20 +116,9 @@ input:focus {
 }
 
 .btn-cadastrar:hover:not(:disabled) { background: #581C87; }
-
 .btn-cadastrar:disabled { background: #9CA3AF; cursor: not-allowed; }
 
-.link-login {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #6B7280;
-  margin-top: 20px;
-}
-
-.link-login a { color: #6B21A8; font-weight: 600; text-decoration: none; }
-.link-login a:hover { text-decoration: underline; }
-
-@media (max-width: 480px) {
-  .card-form { padding: 32px 20px; }
+@media (max-width: 500px) {
+  .card-form { padding: 28px 16px; }
   .linha-dupla { grid-template-columns: 1fr; }
 }

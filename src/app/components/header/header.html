@@ -1,24 +1,32 @@
 <header class="header">
   <div class="header-top">
     <span class="menu-icon" (click)="toggleMenu()">☰</span>
-    <div class="logo">💜 WearDon</div>
-    <a routerLink="/usuario/novo" class="perfil-icon" (click)="fecharMenu()">👤</a>
+    <a routerLink="/vestuario" class="logo">💜 WearDon</a>
+    <a routerLink="/perfil" class="perfil-icon" (click)="fecharMenu()">👤</a>
   </div>
 
   <nav class="nav">
     <a routerLink="/vestuario" routerLinkActive="ativo"
        [routerLinkActiveOptions]="{exact:true}">Explorar</a>
     <a routerLink="/vestuario/novo" routerLinkActive="ativo">Doar</a>
+    <a routerLink="/perfil" routerLinkActive="ativo">Perfil</a>
+    <a routerLink="/historico" routerLinkActive="ativo">Histórico</a>
   </nav>
 
   @if (menuAberto) {
     <div class="overlay" (click)="fecharMenu()"></div>
     <div class="menu-lateral">
-      <a routerLink="/vestuario/novo" (click)="fecharMenu()">Cadastrar Doação</a>
-      <a routerLink="/vestuario" (click)="fecharMenu()">Histórico</a>
-      <a routerLink="/usuario/novo" (click)="fecharMenu()">Perfil</a>
-      <a (click)="fecharMenu()">Configurações</a>
-      <a (click)="fecharMenu()">Sobre</a>
+      <div class="menu-usuario">
+        @if (usuarioLogado) {
+          <p class="menu-nome">{{ usuarioLogado.nome }}</p>
+          <p class="menu-email">{{ usuarioLogado.email }}</p>
+        }
+      </div>
+      <a routerLink="/vestuario" (click)="fecharMenu()">🔍 Explorar</a>
+      <a routerLink="/vestuario/novo" (click)="fecharMenu()">💜 Doar</a>
+      <a routerLink="/perfil" (click)="fecharMenu()">👤 Perfil</a>
+      <a routerLink="/historico" (click)="fecharMenu()">📋 Histórico</a>
+      <a (click)="logout()" class="menu-logout">🚪 Sair</a>
     </div>
   }
 </header>

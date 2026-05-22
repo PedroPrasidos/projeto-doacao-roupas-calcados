@@ -1,0 +1,136 @@
+<div class="pagina">
+  <div class="card-form">
+
+    @if (carregando()) {
+      <div class="estado-vazio">
+        <div class="spinner"></div>
+        <p>Carregando item...</p>
+      </div>
+    }
+
+    @if (!carregando()) {
+      <button class="btn-voltar" [routerLink]="['/vestuario', id]">← Voltar</button>
+      <h1>Editar item</h1>
+      <p class="subtitulo">Atualize as informações do item doado</p>
+
+      <div class="secao">
+        <h2 class="secao-titulo">Informações do item</h2>
+
+        <div class="campo">
+          <label for="produto">Nome do produto <span class="obrigatorio">*</span></label>
+          <input id="produto" type="text" [(ngModel)]="produto"
+            placeholder="Ex: Camiseta Oversized, Tênis Nike..." />
+        </div>
+
+        <div class="linha-dupla">
+          <div class="campo">
+            <label for="categoria">Categoria <span class="obrigatorio">*</span></label>
+            <select id="categoria" [(ngModel)]="categoria">
+              <option value="">Selecione...</option>
+              <option value="roupa">Roupa</option>
+              <option value="calcado">Calçado</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="tipo">Tipo do produto</label>
+            <input id="tipo" type="text" [(ngModel)]="tipo"
+              placeholder="Ex: Oversized, Casual..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="secao">
+        <h2 class="secao-titulo">Detalhes</h2>
+
+        <div class="linha-dupla">
+          <div class="campo">
+            <label for="genero">Gênero</label>
+            <select id="genero" [(ngModel)]="genero">
+              <option value="">Selecione...</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="unissex">Unissex</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="faixa">Faixa etária <span class="obrigatorio">*</span></label>
+            <select id="faixa" [(ngModel)]="faixa_etaria">
+              <option value="">Selecione...</option>
+              <option value="adulto">Adulto</option>
+              <option value="infantil">Infantil</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="linha-dupla">
+          <div class="campo">
+            <label for="cor">Cor</label>
+            <input id="cor" type="text" [(ngModel)]="cor" placeholder="Ex: Preto, Azul..." />
+          </div>
+          <div class="campo">
+            <label for="condicao">Condição</label>
+            <select id="condicao" [(ngModel)]="condicao">
+              <option value="">Selecione...</option>
+              <option value="novo">Novo</option>
+              <option value="otimo">Ótimo</option>
+              <option value="bom">Bom</option>
+              <option value="regular">Regular</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="linha-dupla">
+          @if (categoria === 'roupa') {
+            <div class="campo">
+              <label for="tam_roupa">Tamanho <span class="obrigatorio">*</span></label>
+              <select id="tam_roupa" [(ngModel)]="tamanho_roupa">
+                <option value="">Selecione...</option>
+                @for (t of tamanhos_roupa; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select>
+            </div>
+          }
+          @if (categoria === 'calcado') {
+            <div class="campo">
+              <label for="tam_calc">Número <span class="obrigatorio">*</span></label>
+              <select id="tam_calc" [(ngModel)]="tamanho_calcado">
+                <option value="">Selecione...</option>
+                @for (t of tamanhos_calcado; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select>
+            </div>
+          }
+          <div class="campo">
+            <label for="tempo">Tempo de uso</label>
+            <input id="tempo" type="text" [(ngModel)]="tempo_uso"
+              placeholder="Ex: 1 ano, 6 meses..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="secao">
+        <h2 class="secao-titulo">Descrição</h2>
+        <div class="campo">
+          <label for="descricao">Detalhes adicionais</label>
+          <textarea id="descricao" [(ngModel)]="descricao" rows="3"
+            placeholder="Descreva o estado, detalhes ou informações relevantes..."></textarea>
+        </div>
+      </div>
+
+      @if (erro()) {
+        <div class="erro">{{ erro() }}</div>
+      }
+      @if (sucesso()) {
+        <div class="sucesso">{{ sucesso() }}</div>
+      }
+
+      <button class="btn-salvar" (click)="salvar()" [disabled]="salvando()">
+        @if (salvando()) { Salvando... }
+        @else { Salvar alterações }
+      </button>
+    }
+
+  </div>
+</div>

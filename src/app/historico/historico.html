@@ -1,0 +1,66 @@
+<div class="pagina">
+  <div class="topo">
+    <h1>Histórico</h1>
+    <p class="subtitulo">Suas doações realizadas e itens recebidos</p>
+  </div>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <div class="spinner"></div>
+      <p>Carregando histórico...</p>
+    </div>
+  }
+
+  @if (!carregando() && historico().length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-icone">📋</span>
+      <p>Nenhuma doação concluída ainda.</p>
+      <a routerLink="/vestuario" class="btn-explorar">Explorar itens</a>
+    </div>
+  }
+
+  @if (!carregando() && historico().length > 0) {
+    <div class="lista">
+      @for (h of historico(); track h.id_historico) {
+        <div class="card-historico">
+          <div class="card-imagem">
+            <img
+              [src]="imagemCategoria(vestuarios().get(h.id_vestuario))"
+              [alt]="vestuarios().get(h.id_vestuario)?.produto || 'Item'"
+              class="img-historico"
+            />
+            <span class="badge" [class]="ehDoador(h) ? 'badge-doado' : 'badge-recebido'">
+              {{ ehDoador(h) ? 'Doado' : 'Recebido' }}
+            </span>
+          </div>
+
+          <div class="card-info">
+            <p class="card-produto">
+              {{ vestuarios().get(h.id_vestuario)?.produto || 'Item não encontrado' }}
+            </p>
+            <p class="card-categoria">
+              {{ vestuarios().get(h.id_vestuario)?.categoria || '' }}
+              @if (vestuarios().get(h.id_vestuario)?.cor) {
+                · {{ vestuarios().get(h.id_vestuario)?.cor }}
+              }
+            </p>
+            <p class="card-data">📅 {{ h.data_conclusao }}</p>
+            @if (ehDoador(h)) {
+              <p class="card-papel">Você doou este item</p>
+            } @else {
+              <p class="card-papel">Você recebeu este item</p>
+            }
+            @if (h.nota_para_doador) {
+              <div class="avaliacao">
+                ⭐ Nota recebida: <strong>{{ h.nota_para_doador }}</strong>
+                @if (h.comentario_para_doador) {
+                  <p class="comentario">"{{ h.comentario_para_doador }}"</p>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

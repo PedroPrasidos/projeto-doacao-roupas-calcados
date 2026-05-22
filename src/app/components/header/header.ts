@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ServiceRoupas } from '../../service-roupas';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +11,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.css'
 })
 export class HeaderComponent {
+  private service = inject(ServiceRoupas);
+  private router = inject(Router);
   menuAberto = false;
 
-  toggleMenu() {
-    this.menuAberto = !this.menuAberto;
+  get usuarioLogado() {
+    return this.service.obterUsuarioLogado();
   }
 
-  fecharMenu() {
-    this.menuAberto = false;
+  toggleMenu() { this.menuAberto = !this.menuAberto; }
+  fecharMenu() { this.menuAberto = false; }
+
+  logout() {
+    this.service.logout();
+    this.fecharMenu();
+    this.router.navigate(['/login']);
   }
 }

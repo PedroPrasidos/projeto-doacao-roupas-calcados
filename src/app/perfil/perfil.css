@@ -1,0 +1,209 @@
+.pagina {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.card-perfil {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 28px 24px;
+  border: 1px solid #F0EBF8;
+  text-align: center;
+  position: sticky;
+  top: 100px;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  background: #6B21A8;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 auto 16px;
+}
+
+h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1C1C1E;
+  margin: 0 0 12px;
+}
+
+.perfil-local, .perfil-email, .perfil-tel {
+  font-size: 0.85rem;
+  color: #6B7280;
+  margin: 0 0 6px;
+}
+
+.avaliacao {
+  background: #F5F3FF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #6B21A8;
+  margin: 12px 0;
+}
+
+.btn-logout {
+  width: 100%;
+  background: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.2s;
+}
+.btn-logout:hover { background: #FEE2E2; }
+
+.secao { margin-bottom: 32px; }
+
+.secao-titulo {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6B21A8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid #EDE9FE;
+}
+
+.grid-itens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.card-item {
+  background: #FFFFFF;
+  border-radius: 14px;
+  border: 1px solid #F0EBF8;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(107,33,168,0.1);
+}
+
+.card-img {
+  background: #EDE9FE;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-icone { font-size: 2.5rem; }
+
+.badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge-disponivel { background: #D1FAE5; color: #065F46; }
+.badge-reservado { background: #FEF3C7; color: #92400E; }
+.badge-doado { background: #EDE9FE; color: #6B21A8; }
+
+.card-info { padding: 10px 12px; }
+
+.card-nome {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin: 0 0 4px;
+}
+
+.card-sub { font-size: 0.75rem; color: #6B7280; margin: 0; }
+
+.estado-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6B7280;
+}
+
+.estado-icone { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+
+.btn-doar {
+  display: inline-block;
+  margin-top: 12px;
+  background: #6B21A8;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #EDE9FE;
+  border-top-color: #6B21A8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.lista-historico { display: flex; flex-direction: column; gap: 10px; }
+
+.historico-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #F0EBF8;
+}
+
+.historico-icone { font-size: 1.3rem; flex-shrink: 0; }
+
+.historico-data {
+  font-size: 0.75rem;
+  color: #6B7280;
+  margin: 0 0 2px;
+}
+
+.historico-desc {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin: 0;
+}
+
+.historico-nota { font-size: 0.8rem; color: #6B21A8; margin: 4px 0 0; }
+
+@media (max-width: 700px) {
+  .layout { grid-template-columns: 1fr; }
+  .card-perfil { position: static; }
+  .grid-itens { grid-template-columns: repeat(2, 1fr); }
+}

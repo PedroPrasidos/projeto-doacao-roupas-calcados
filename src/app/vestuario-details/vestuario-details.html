@@ -1,15 +1,135 @@
 <div class="pagina">
-  <button class="btn-voltar" routerLink="/vestuario">← Voltar</button>
-  <div class="imagem-grande">👕</div>
-  <div class="info-card">
-    <h2>Camiseta Oversized Masculina - Tam. M</h2>
-    <div class="atributos">
-      <div><span>Tamanho</span><strong>M</strong></div>
-      <div><span>Tempo de Uso</span><strong>1 Ano</strong></div>
-      <div><span>Cor</span><strong>Preto</strong></div>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <div class="spinner"></div>
+      <p>Carregando item...</p>
     </div>
-    <p><strong>Descrição:</strong> Camiseta Oversized Masculina, ideal para o dia a dia.</p>
-    <p><strong>Doado por:</strong> <span class="doador">João Silva</span></p>
-    <button class="btn-interesse">Registrar Interesse</button>
-  </div>
+  }
+
+  @if (erro() && !carregando()) {
+    <div class="estado-erro">{{ erro() }}</div>
+  }
+
+  @if (vestuario() && !carregando()) {
+    <button class="btn-voltar" routerLink="/vestuario">← Voltar</button>
+
+    <div class="layout">
+      <div class="coluna-imagem">
+        <div class="imagem-grande">
+          <span class="icone-grande">{{ icone }}</span>
+          <span class="badge-categoria">{{ vestuario().categoria }}</span>
+        </div>
+
+        @if (doador()) {
+          <div class="card-doador">
+            <p class="card-doador-titulo">Doado por</p>
+            <p class="card-doador-nome">{{ doador().nome }}</p>
+            <p class="card-doador-local">📍 {{ doador().cidade }} - {{ doador().estado }}</p>
+          </div>
+        }
+      </div>
+
+      <div class="coluna-info">
+        <h1>{{ vestuario().produto }}</h1>
+
+        <div class="atributos">
+          <div class="atributo">
+            <span class="atributo-label">Tamanho</span>
+            <span class="atributo-valor">{{ tamanho }}</span>
+          </div>
+          @if (vestuario().cor) {
+            <div class="atributo">
+              <span class="atributo-label">Cor</span>
+              <span class="atributo-valor">{{ vestuario().cor }}</span>
+            </div>
+          }
+          @if (vestuario().genero) {
+            <div class="atributo">
+              <span class="atributo-label">Gênero</span>
+              <span class="atributo-valor">{{ vestuario().genero }}</span>
+            </div>
+          }
+          @if (vestuario().condicao) {
+            <div class="atributo">
+              <span class="atributo-label">Condição</span>
+              <span class="atributo-valor">{{ vestuario().condicao }}</span>
+            </div>
+          }
+          @if (vestuario().tempo_uso) {
+            <div class="atributo">
+              <span class="atributo-label">Tempo de uso</span>
+              <span class="atributo-valor">{{ vestuario().tempo_uso }}</span>
+            </div>
+          }
+          @if (vestuario().faixa_etaria) {
+            <div class="atributo">
+              <span class="atributo-label">Faixa etária</span>
+              <span class="atributo-valor">{{ vestuario().faixa_etaria }}</span>
+            </div>
+          }
+        </div>
+
+        @if (vestuario().descricao) {
+          <div class="descricao">
+            <p class="descricao-titulo">Descrição</p>
+            <p class="descricao-texto">{{ vestuario().descricao }}</p>
+          </div>
+        }
+
+        @if (mensagem()) {
+          <div class="sucesso">{{ mensagem() }}</div>
+        }
+        @if (erro()) {
+          <div class="erro-inline">{{ erro() }}</div>
+        }
+
+        <!-- VISÃO DO DOADOR -->
+        @if (ehDoador) {
+          @if (temInteresse && receptor()) {
+            <div class="card-receptor">
+              <p class="receptor-titulo">💜 Alguém quer este item!</p>
+              <p class="receptor-nome">{{ receptor().nome }}</p>
+              <p class="receptor-contato">📞 {{ receptor().telefone }}</p>
+              <p class="receptor-contato">✉️ {{ receptor().email }}</p>
+              <p class="receptor-dica">Entre em contato para combinar a entrega.</p>
+              <div class="botoes-doador">
+                <button class="btn-recusar" (click)="recusar()">✕ Recusar</button>
+                <button class="btn-confirmar" (click)="confirmarDoacao()">✅ Confirmar</button>
+              </div>
+            </div>
+          }
+          @if (!temInteresse && vestuario().status) {
+            <div class="aviso-aguardando">
+              <p>⏳ Aguardando interesse de alguém.</p>
+            </div>
+            <div class="botoes-dono">
+            <button class="btn-editar" [routerLink]="['/vestuario', vestuario().id_vestuario, 'editar']">
+              ✏️ Editar
+            </button>
+            <button class="btn-excluir" (click)="excluir()">🗑️ Excluir</button>
+          </div>
+}
+        }
+
+        <!-- VISÃO DO RECEPTOR -->
+        @if (!ehDoador) {
+          @if (vestuario().status && !temInteresse) {
+            <button class="btn-interesse" (click)="registrarInteresse()">
+              💜 Registrar Interesse
+            </button>
+          }
+          @if (vestuario().id_usuario_receptor === usuarioLogado?.id_usuario) {
+            <div class="aviso-seu-interesse">
+              💜 Você registrou interesse neste item. Aguarde o contato do doador.
+            </div>
+          }
+          @if (!vestuario().status && vestuario().id_usuario_receptor !== usuarioLogado?.id_usuario && temInteresse) {
+            <button class="btn-reservado" disabled>Item reservado para outro usuário</button>
+          }
+        }
+
+      </div>
+    </div>
+  }
 </div>

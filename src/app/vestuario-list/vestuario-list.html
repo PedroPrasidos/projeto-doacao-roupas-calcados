@@ -1,15 +1,105 @@
 <div class="pagina">
-  <h2>Explore à vontade!</h2>
-  <div class="grid">
-    @for (item of itens; track item.id) {
-      <div class="card" [routerLink]="['/vestuario', item.id]">
-        <div class="card-imagem">👕</div>
-        <div class="card-info">
-          <p class="card-nome">{{ item.nome }}</p>
-          <p class="card-local">{{ item.cidade }} - {{ item.estado }}</p>
-        </div>
-        <button class="btn-interesse">Registrar Interesse</button>
-      </div>
-    }
+
+  <div class="topo">
+    <h1>Explore à vontade!</h1>
+    <p class="subtitulo">Encontre roupas e calçados disponíveis para doação</p>
   </div>
+
+  <div class="filtros">
+    <button
+      class="chip"
+      [class.ativo]="filtros.categoria === ''"
+      (click)="aplicarFiltro('categoria', '')">
+      Todos
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.categoria === 'roupa'"
+      (click)="aplicarFiltro('categoria', 'roupa')">
+      Roupas
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.categoria === 'calcado'"
+      (click)="aplicarFiltro('categoria', 'calcado')">
+      Calçados
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.genero === 'masculino'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'masculino' ? '' : 'masculino')">
+      Masculino
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.genero === 'feminino'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'feminino' ? '' : 'feminino')">
+      Feminino
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.genero === 'unissex'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'unissex' ? '' : 'unissex')">
+      Unissex
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.faixa_etaria === 'infantil'"
+      (click)="aplicarFiltro('faixa_etaria', filtros.faixa_etaria === 'infantil' ? '' : 'infantil')">
+      Infantil
+    </button>
+    <button
+      class="chip"
+      [class.ativo]="filtros.condicao === 'novo'"
+      (click)="aplicarFiltro('condicao', filtros.condicao === 'novo' ? '' : 'novo')">
+      Novo
+    </button>
+  </div>
+
+  @if (carregando()) {
+    <div class="estado-vazio">
+      <div class="spinner"></div>
+      <p>Carregando itens...</p>
+    </div>
+  }
+
+  @if (erro()) {
+    <div class="estado-erro">{{ erro() }}</div>
+  }
+
+  @if (!carregando() && !erro() && vestuarios().length === 0) {
+    <div class="estado-vazio">
+      <span class="estado-icone">🔍</span>
+      <p>Nenhum item encontrado com esses filtros.</p>
+      <button class="btn-limpar" (click)="limparFiltros()">Limpar filtros</button>
+    </div>
+  }
+
+  @if (!carregando() && vestuarios().length > 0) {
+    <div class="grid">
+      @for (item of vestuarios(); track item.id_vestuario) {
+        <div class="card" [routerLink]="['/vestuario', item.id_vestuario]">
+          <div class="card-imagem">
+            <span class="card-icone">{{ iconeCategoria(item) }}</span>
+            <span class="card-categoria">{{ item.categoria }}</span>
+          </div>
+          <div class="card-corpo">
+            <p class="card-nome">{{ item.produto }}</p>
+            <p class="card-tipo">{{ item.tipo || '' }} {{ item.cor ? '· ' + item.cor : '' }}</p>
+            <div class="card-tags">
+              <span class="tag">{{ tamanhoLabel(item) }}</span>
+              @if (item.condicao) {
+                <span class="tag tag-condicao">{{ item.condicao }}</span>
+              }
+            </div>
+            <p class="card-local">📍 {{ item.cidade || 'Localização não informada' }} - {{ item.estado || '' }}</p>
+          </div>
+          <div class="card-rodape">
+            <span class="btn-interesse">Ver detalhes</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
 </div>

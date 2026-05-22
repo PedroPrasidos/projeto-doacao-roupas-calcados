@@ -1,0 +1,33 @@
+<div class="pagina">
+  <div class="card-login">
+    <div class="logo">
+      <span class="logo-icone">💜</span>
+      <span class="logo-texto">WearDon</span>
+    </div>
+    <h1>Bem-vindo de volta</h1>
+    <p class="subtitulo">Entre na sua conta para continuar</p>
+
+    <div class="campo">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" [(ngModel)]="email" placeholder="seu@email.com" />
+    </div>
+
+    <div class="campo">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" [(ngModel)]="senha" placeholder="••••••••" />
+    </div>
+
+    @if (erro()) {
+      <div class="erro">{{ erro() }}</div>
+    }
+
+    <button class="btn-entrar" (click)="entrar()" [disabled]="carregando()">
+      @if (carregando()) { Entrando... }
+      @else { Entrar }
+    </button>
+
+    <p class="link-cadastro">
+      Não tem conta? <a routerLink="/usuario/novo">Cadastre-se</a>
+    </p>
+  </div>
+</div>
