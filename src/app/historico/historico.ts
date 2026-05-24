@@ -16,6 +16,7 @@ export class HistoricoComponent implements OnInit {
   usuarioLogado: any = null;
   historico = signal<any[]>([]);
   vestuarios = signal<Map<number, any>>(new Map());
+  usuarios = signal<Map<number, any>>(new Map());
   carregando = signal(true);
 
   ngOnInit() {
@@ -34,6 +35,26 @@ export class HistoricoComponent implements OnInit {
             },
             error: () => {}
           });
+          if (h.id_usuario_doador !== this.usuarioLogado.id_usuario) {
+            this.service.obterUsuario(h.id_usuario_doador).subscribe({
+              next: (u) => {
+                const mapa = new Map(this.usuarios());
+                mapa.set(h.id_usuario_doador, u);
+                this.usuarios.set(mapa);
+              },
+              error: () => {}
+            });
+          }
+          if (h.id_usuario_receptor !== this.usuarioLogado.id_usuario) {
+            this.service.obterUsuario(h.id_usuario_receptor).subscribe({
+              next: (u) => {
+                const mapa = new Map(this.usuarios());
+                mapa.set(h.id_usuario_receptor, u);
+                this.usuarios.set(mapa);
+              },
+              error: () => {}
+            });
+          }
         });
         this.carregando.set(false);
       },
@@ -45,11 +66,22 @@ export class HistoricoComponent implements OnInit {
     return h.id_usuario_doador === this.usuarioLogado?.id_usuario;
   }
 
-  imagemCategoria(v: any): string {
-    if (!v) return 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80';
-    if (v.categoria === 'calcado') {
-      return 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80';
-    }
-    return 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80';
+  icone(v: any): string {
+    if (!v) return '👕';
+    return v.categoria === 'calcado' ? '👟' : '👕';
+  }
+
+  nomeDoador(h: any): string {
+    return this.usuarios().get(h.id_usuario_doador)?.nome || '...';
+  }
+
+  nomeReceptor(h: any): string {
+    return this.usuarios().get(h.id_usuario_receptor)?.nome || '...';
+  }
+
+  formatarData(data: string): string {
+    if (!data) return '';
+    const [ano, mes, dia] = data.split('-');
+    return `${dia}/${mes}/${ano}`;
   }
 }

@@ -7,8 +7,7 @@ import { VestuarioDetails } from './vestuario-details/vestuario-details';
 import { VestuarioEdit } from './vestuario-edit/vestuario-edit';
 import { PerfilComponent } from './perfil/perfil';
 import { HistoricoComponent } from './historico/historico';
-
-
+import { PerfilEditComponent } from './perfil-edit/perfil-edit';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -19,5 +18,6 @@ export const routes: Routes = [
   { path: 'vestuario/:id', component: VestuarioDetails },
   { path: 'vestuario/:id/editar', component: VestuarioEdit },
   { path: 'perfil', component: PerfilComponent },
-  { path: 'historico', component: HistoricoComponent }
+  { path: 'perfil/editar', component: PerfilEditComponent },
+  { path: 'historico', component: HistoricoComponent },
 ];

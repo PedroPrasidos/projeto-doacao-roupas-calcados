@@ -43,21 +43,16 @@ export class VestuarioForm {
   }
 
   cadastrar() {
-    if (!this.usuarioLogado) {
-      this.router.navigate(['/login']);
-      return;
-    }
+    if (!this.usuarioLogado) { this.router.navigate(['/login']); return; }
 
     if (!this.categoria || !this.produto || !this.faixa_etaria) {
       this.erro.set('Preencha todos os campos obrigatórios.');
       return;
     }
-
     if (this.categoria === 'roupa' && !this.tamanho_roupa) {
       this.erro.set('Informe o tamanho da roupa.');
       return;
     }
-
     if (this.categoria === 'calcado' && !this.tamanho_calcado) {
       this.erro.set('Informe o tamanho do calçado.');
       return;
@@ -68,19 +63,17 @@ export class VestuarioForm {
 
     const dados: any = {
       id_usuario_doador: this.usuarioLogado.id_usuario,
-      cidade: this.usuarioLogado.cidade,
-      estado: this.usuarioLogado.estado,
       categoria: this.categoria,
       produto: this.produto,
       faixa_etaria: this.faixa_etaria,
+      status: true,
       genero: this.genero || null,
       tipo: this.tipo || null,
       cor: this.cor || null,
       condicao: this.condicao || null,
       tempo_uso: this.tempo_uso || null,
       descricao: this.descricao || null,
-      status: true,
-      data_postagem: new Date().toISOString().split('T')[0],
+      id_usuario_receptor: null,
     };
 
     if (this.categoria === 'roupa') {

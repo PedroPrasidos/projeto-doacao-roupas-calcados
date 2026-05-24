@@ -17,7 +17,12 @@ export class VestuarioList implements OnInit {
   erro = signal('');
   usuarioLogado: any = null;
 
-  filtros = { categoria: '', genero: '', faixa_etaria: '', condicao: '' };
+  filtros = {
+    categoria: '',
+    genero: '',
+    faixa_etaria: '',
+    condicao: ''
+  };
 
   ngOnInit() {
     this.usuarioLogado = this.service.obterUsuarioLogado();
@@ -35,7 +40,7 @@ export class VestuarioList implements OnInit {
         this.carregando.set(false);
       },
       error: () => {
-        this.erro.set('Não foi possível carregar os itens. Verifique se o Flask está rodando.');
+        this.erro.set('Não foi possível carregar. Verifique se o Flask está rodando.');
         this.carregando.set(false);
       }
     });
@@ -51,16 +56,11 @@ export class VestuarioList implements OnInit {
     this.carregar();
   }
 
-  iconeCategoria(item: any): string {
-    if (item.categoria === 'calcado') return '👟';
-    const tipo = (item.tipo || '').toLowerCase();
-    if (tipo.includes('calça') || tipo.includes('bermuda')) return '👖';
-    if (tipo.includes('vestido') || tipo.includes('saia')) return '👗';
-    if (tipo.includes('jaqueta') || tipo.includes('casaco')) return '🧥';
-    return '👕';
+  icone(item: any): string {
+    return item.categoria === 'calcado' ? '👟' : '👕';
   }
 
-  tamanhoLabel(item: any): string {
+  tamanho(item: any): string {
     return item.categoria === 'calcado'
       ? `Nº ${item.tamanho_calcado}`
       : `Tam. ${item.tamanho_roupa}`;

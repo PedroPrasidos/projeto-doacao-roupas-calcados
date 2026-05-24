@@ -15,41 +15,44 @@ export class PerfilComponent implements OnInit {
 
   usuarioLogado: any = null;
   meusItens = signal<any[]>([]);
-  historico = signal<any[]>([]);
   carregando = signal(true);
 
   ngOnInit() {
     this.usuarioLogado = this.service.obterUsuarioLogado();
     if (!this.usuarioLogado) { this.router.navigate(['/login']); return; }
 
-    this.service.listarVestuariosDoUsuario(this.usuarioLogado.id_usuario).subscribe({
-  next: (itens) => {
-    this.meusItens.set(itens.filter(i => 
-    i.status === true || 
-    (i.status === false && i.id_usuario_receptor !== null)
-    ));
-    this.carregando.set(false);
-  },
-  error: () => this.carregando.set(false)
-});
+    const id = this.usuarioLogado.id_usuario;
 
-    this.service.obterHistorico(this.usuarioLogado.id_usuario).subscribe({
-      next: (h) => this.historico.set(h),
-      error: () => {}
+    // Busca vestuários e histórico juntos para cruzar
+    this.service.listarVestuariosDoUsuario(id).subscribe({
+      next: (itens) => {
+        this.service.obterHistorico(id).subscribe({
+          next: (historico) => {
+            // IDs de vestuários que já foram concluídos no histórico
+            const idsDoadosNoHistorico = new Set(historico.map((h: any) => h.id_vestuario));
+
+            // Mostra apenas os que NÃO foram concluídos
+            this.meusItens.set(itens.filter(i => !idsDoadosNoHistorico.has(i.id_vestuario)));
+            this.carregando.set(false);
+          },
+          error: () => {
+            // Se histórico falhar, mostra tudo que não está doado pela lógica de status
+            this.meusItens.set(itens.filter(i =>
+              i.status === true || i.id_usuario_receptor !== null
+            ));
+            this.carregando.set(false);
+          }
+        });
+      },
+      error: () => this.carregando.set(false)
     });
   }
 
-  iconeCategoria(item: any): string {
-    if (item.categoria === 'calcado') return '👟';
-    const tipo = (item.tipo || '').toLowerCase();
-    if (tipo.includes('calça') || tipo.includes('bermuda')) return '👖';
-    if (tipo.includes('vestido') || tipo.includes('saia')) return '👗';
-    if (tipo.includes('jaqueta') || tipo.includes('casaco')) return '🧥';
-    return '👕';
+  icone(item: any): string {
+    return item.categoria === 'calcado' ? '👟' : '👕';
   }
 
   badgeStatus(item: any): string {
-    if (!item.status && !item.id_usuario_receptor) return 'doado';
     if (item.id_usuario_receptor) return 'reservado';
     return 'disponivel';
   }

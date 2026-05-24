@@ -52,7 +52,6 @@ export class UsuarioForm {
       logradouro: this.logradouro || null,
       numero: this.numero || null,
       bairro: this.bairro || null,
-      foto_perfil: null
     };
 
     this.service.cadastrarUsuario(dados).subscribe({

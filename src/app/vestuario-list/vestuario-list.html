@@ -1,75 +1,48 @@
 <div class="pagina">
-
   <div class="topo">
     <h1>Explore à vontade!</h1>
     <p class="subtitulo">Encontre roupas e calçados disponíveis para doação</p>
   </div>
 
-  <div class="filtros">
-    <button
-      class="chip"
-      [class.ativo]="filtros.categoria === ''"
-      (click)="aplicarFiltro('categoria', '')">
-      Todos
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.categoria === 'roupa'"
-      (click)="aplicarFiltro('categoria', 'roupa')">
-      Roupas
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.categoria === 'calcado'"
-      (click)="aplicarFiltro('categoria', 'calcado')">
-      Calçados
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.genero === 'masculino'"
-      (click)="aplicarFiltro('genero', filtros.genero === 'masculino' ? '' : 'masculino')">
-      Masculino
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.genero === 'feminino'"
-      (click)="aplicarFiltro('genero', filtros.genero === 'feminino' ? '' : 'feminino')">
-      Feminino
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.genero === 'unissex'"
-      (click)="aplicarFiltro('genero', filtros.genero === 'unissex' ? '' : 'unissex')">
-      Unissex
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.faixa_etaria === 'infantil'"
-      (click)="aplicarFiltro('faixa_etaria', filtros.faixa_etaria === 'infantil' ? '' : 'infantil')">
-      Infantil
-    </button>
-    <button
-      class="chip"
-      [class.ativo]="filtros.condicao === 'novo'"
-      (click)="aplicarFiltro('condicao', filtros.condicao === 'novo' ? '' : 'novo')">
-      Novo
-    </button>
+  <div class="filtros" role="group" aria-label="Filtros de busca">
+    <button class="chip" [class.ativo]="filtros.categoria === ''"
+      (click)="aplicarFiltro('categoria', '')">Todos</button>
+    <button class="chip" [class.ativo]="filtros.categoria === 'roupa'"
+      (click)="aplicarFiltro('categoria', 'roupa')">Roupas</button>
+    <button class="chip" [class.ativo]="filtros.categoria === 'calcado'"
+      (click)="aplicarFiltro('categoria', 'calcado')">Calçados</button>
+    <button class="chip" [class.ativo]="filtros.genero === 'masculino'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'masculino' ? '' : 'masculino')">Masculino</button>
+    <button class="chip" [class.ativo]="filtros.genero === 'feminino'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'feminino' ? '' : 'feminino')">Feminino</button>
+    <button class="chip" [class.ativo]="filtros.genero === 'unissex'"
+      (click)="aplicarFiltro('genero', filtros.genero === 'unissex' ? '' : 'unissex')">Unissex</button>
+    <button class="chip" [class.ativo]="filtros.faixa_etaria === 'infantil'"
+      (click)="aplicarFiltro('faixa_etaria', filtros.faixa_etaria === 'infantil' ? '' : 'infantil')">Infantil</button>
+    <button class="chip" [class.ativo]="filtros.condicao === 'novo'"
+      (click)="aplicarFiltro('condicao', filtros.condicao === 'novo' ? '' : 'novo')">Novo</button>
+    <button class="chip" [class.ativo]="filtros.condicao === 'otimo'"
+      (click)="aplicarFiltro('condicao', filtros.condicao === 'otimo' ? '' : 'otimo')">Ótimo</button>
+    <button class="chip" [class.ativo]="filtros.condicao === 'bom'"
+      (click)="aplicarFiltro('condicao', filtros.condicao === 'bom' ? '' : 'bom')">Bom</button>
+    <button class="chip" [class.ativo]="filtros.condicao === 'regular'"
+      (click)="aplicarFiltro('condicao', filtros.condicao === 'regular' ? '' : 'regular')">Regular</button>
   </div>
 
   @if (carregando()) {
-    <div class="estado-vazio">
-      <div class="spinner"></div>
+    <div class="estado-centro">
+      <div class="spinner" aria-label="Carregando"></div>
       <p>Carregando itens...</p>
     </div>
   }
 
   @if (erro()) {
-    <div class="estado-erro">{{ erro() }}</div>
+    <div class="estado-erro" role="alert">{{ erro() }}</div>
   }
 
   @if (!carregando() && !erro() && vestuarios().length === 0) {
-    <div class="estado-vazio">
-      <span class="estado-icone">🔍</span>
+    <div class="estado-centro">
+      <span class="estado-icone" aria-hidden="true">🔍</span>
       <p>Nenhum item encontrado com esses filtros.</p>
       <button class="btn-limpar" (click)="limparFiltros()">Limpar filtros</button>
     </div>
@@ -78,28 +51,25 @@
   @if (!carregando() && vestuarios().length > 0) {
     <div class="grid">
       @for (item of vestuarios(); track item.id_vestuario) {
-        <div class="card" [routerLink]="['/vestuario', item.id_vestuario]">
-          <div class="card-imagem">
-            <span class="card-icone">{{ iconeCategoria(item) }}</span>
+        <a class="card" [routerLink]="['/vestuario', item.id_vestuario]"
+           [attr.aria-label]="item.produto + ', ' + tamanho(item)">
+          <div class="card-topo">
+            <span class="card-icone" aria-hidden="true">{{ icone(item) }}</span>
             <span class="card-categoria">{{ item.categoria }}</span>
           </div>
           <div class="card-corpo">
             <p class="card-nome">{{ item.produto }}</p>
-            <p class="card-tipo">{{ item.tipo || '' }} {{ item.cor ? '· ' + item.cor : '' }}</p>
+            <p class="card-detalhe">{{ item.tipo || item.categoria }} {{ item.cor ? '· ' + item.cor : '' }}</p>
             <div class="card-tags">
-              <span class="tag">{{ tamanhoLabel(item) }}</span>
+              <span class="tag">{{ tamanho(item) }}</span>
               @if (item.condicao) {
                 <span class="tag tag-condicao">{{ item.condicao }}</span>
               }
             </div>
-            <p class="card-local">📍 {{ item.cidade || 'Localização não informada' }} - {{ item.estado || '' }}</p>
           </div>
-          <div class="card-rodape">
-            <span class="btn-interesse">Ver detalhes</span>
-          </div>
-        </div>
+          <div class="card-rodape">Ver detalhes</div>
+        </a>
       }
     </div>
   }
-
 </div>

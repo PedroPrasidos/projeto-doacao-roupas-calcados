@@ -31,25 +31,24 @@ export class VestuarioDetails implements OnInit {
     return !!this.vestuario()?.id_usuario_receptor;
   }
 
-  get foiDoado(): boolean {
-    return this.vestuario()?.status === false && !this.vestuario()?.id_usuario_receptor;
-  }
-
   get tamanho(): string {
     const v = this.vestuario();
     if (!v) return '';
-    return v.categoria === 'calcado' ? `Nº ${v.tamanho_calcado}` : `Tam. ${v.tamanho_roupa}`;
+    return v.categoria === 'calcado'
+      ? `Nº ${v.tamanho_calcado}`
+      : `Tam. ${v.tamanho_roupa}`;
   }
 
   get icone(): string {
-    const v = this.vestuario();
-    if (!v) return '👕';
-    if (v.categoria === 'calcado') return '👟';
-    const tipo = (v.tipo || '').toLowerCase();
-    if (tipo.includes('calça') || tipo.includes('bermuda')) return '👖';
-    if (tipo.includes('vestido') || tipo.includes('saia')) return '👗';
-    if (tipo.includes('jaqueta') || tipo.includes('casaco')) return '🧥';
-    return '👕';
+    return this.vestuario()?.categoria === 'calcado' ? '👟' : '👕';
+  }
+
+  private dataHoje(): string {
+    const agora = new Date();
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const dia = String(agora.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
   }
 
   ngOnInit() {
@@ -82,9 +81,9 @@ export class VestuarioDetails implements OnInit {
     const dados = { ...v, id_usuario_receptor: this.usuarioLogado.id_usuario, status: false };
     this.service.atualizarVestuario(v.id_vestuario, dados).subscribe({
       next: () => {
-        this.mensagem.set('Interesse registrado! Aguarde o contato do doador.');
         this.vestuario.set({ ...v, id_usuario_receptor: this.usuarioLogado.id_usuario, status: false });
         this.receptor.set(this.usuarioLogado);
+        this.mensagem.set('Interesse registrado! Aguarde o contato do doador.');
       },
       error: () => this.erro.set('Erro ao registrar interesse.')
     });
@@ -95,37 +94,35 @@ export class VestuarioDetails implements OnInit {
     const dados = { ...v, id_usuario_receptor: null, status: true };
     this.service.atualizarVestuario(v.id_vestuario, dados).subscribe({
       next: () => {
-        this.mensagem.set('Interesse recusado. O item voltou para a listagem.');
         this.vestuario.set({ ...v, id_usuario_receptor: null, status: true });
         this.receptor.set(null);
+        this.mensagem.set('Interesse recusado. O item voltou para a listagem.');
       },
       error: () => this.erro.set('Erro ao recusar interesse.')
     });
   }
 
   confirmarDoacao() {
-  const v = this.vestuario();
-  const dados = {
-    id_vestuario: v.id_vestuario,
-    id_usuario_doador: v.id_usuario_doador,
-    id_usuario_receptor: v.id_usuario_receptor,
-    status_doacao: true,
-    data_conclusao: new Date().toISOString().split('T')[0]
-  };
-  this.service.concluirDoacao(v.id_vestuario, dados).subscribe({
-    next: () => {
-      this.mensagem.set('Doação confirmada com sucesso!');
-      setTimeout(() => this.router.navigate(['/vestuario']), 2000);
-    },
-    error: () => this.erro.set('Erro ao confirmar doação.')
-  });
-}
+    const v = this.vestuario();
+    const dados = {
+      id_usuario_doador: v.id_usuario_doador,
+      id_usuario_receptor: v.id_usuario_receptor,
+      data_conclusao: this.dataHoje()
+    };
+    this.service.concluirDoacao(v.id_vestuario, dados).subscribe({
+      next: () => {
+        this.mensagem.set('Doação confirmada! Redirecionando...');
+        setTimeout(() => this.router.navigate(['/historico']), 2000);
+      },
+      error: () => this.erro.set('Erro ao confirmar doação.')
+    });
+  }
 
   excluir() {
-  if (!confirm('Tem certeza que deseja excluir este item?')) return;
-  this.service.deletarVestuario(this.vestuario().id_vestuario).subscribe({
-    next: () => this.router.navigate(['/vestuario']),
-    error: () => this.erro.set('Erro ao excluir item.')
-  });
-}
+    if (!confirm('Tem certeza que deseja excluir este item?')) return;
+    this.service.deletarVestuario(this.vestuario().id_vestuario).subscribe({
+      next: () => this.router.navigate(['/vestuario']),
+      error: () => this.erro.set('Erro ao excluir item.')
+    });
+  }
 }

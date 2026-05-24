@@ -1,31 +1,31 @@
 <div class="pagina">
 
   @if (carregando()) {
-    <div class="estado-vazio">
+    <div class="estado-centro">
       <div class="spinner"></div>
-      <p>Carregando item...</p>
+      <p>Carregando...</p>
     </div>
   }
 
   @if (erro() && !carregando()) {
-    <div class="estado-erro">{{ erro() }}</div>
+    <div class="estado-erro" role="alert">{{ erro() }}</div>
   }
 
   @if (vestuario() && !carregando()) {
-    <button class="btn-voltar" routerLink="/vestuario">← Voltar</button>
+    <a class="btn-voltar" routerLink="/vestuario">← Voltar</a>
 
     <div class="layout">
       <div class="coluna-imagem">
-        <div class="imagem-grande">
-          <span class="icone-grande">{{ icone }}</span>
+        <div class="imagem-grande" [attr.aria-label]="vestuario().produto">
+          <span class="icone-grande" aria-hidden="true">{{ icone }}</span>
           <span class="badge-categoria">{{ vestuario().categoria }}</span>
         </div>
 
         @if (doador()) {
           <div class="card-doador">
-            <p class="card-doador-titulo">Doado por</p>
-            <p class="card-doador-nome">{{ doador().nome }}</p>
-            <p class="card-doador-local">📍 {{ doador().cidade }} - {{ doador().estado }}</p>
+            <p class="label-titulo">Doado por</p>
+            <p class="doador-nome">{{ doador().nome }}</p>
+            <p class="doador-local">📍 {{ doador().cidade }}, {{ doador().estado }}</p>
           </div>
         }
       </div>
@@ -72,30 +72,29 @@
 
         @if (vestuario().descricao) {
           <div class="descricao">
-            <p class="descricao-titulo">Descrição</p>
+            <p class="label-titulo">Descrição</p>
             <p class="descricao-texto">{{ vestuario().descricao }}</p>
           </div>
         }
 
         @if (mensagem()) {
-          <div class="sucesso">{{ mensagem() }}</div>
+          <div class="alerta-sucesso" role="status">{{ mensagem() }}</div>
         }
         @if (erro()) {
-          <div class="erro-inline">{{ erro() }}</div>
+          <div class="alerta-erro" role="alert">{{ erro() }}</div>
         }
 
-        <!-- VISÃO DO DOADOR -->
         @if (ehDoador) {
           @if (temInteresse && receptor()) {
             <div class="card-receptor">
-              <p class="receptor-titulo">💜 Alguém quer este item!</p>
+              <p class="receptor-titulo">💜 Alguém tem interesse!</p>
               <p class="receptor-nome">{{ receptor().nome }}</p>
               <p class="receptor-contato">📞 {{ receptor().telefone }}</p>
               <p class="receptor-contato">✉️ {{ receptor().email }}</p>
               <p class="receptor-dica">Entre em contato para combinar a entrega.</p>
-              <div class="botoes-doador">
-                <button class="btn-recusar" (click)="recusar()">✕ Recusar</button>
-                <button class="btn-confirmar" (click)="confirmarDoacao()">✅ Confirmar</button>
+              <div class="botoes-acao">
+                <button class="btn-recusar" (click)="recusar()">Recusar</button>
+                <button class="btn-confirmar" (click)="confirmarDoacao()">Confirmar doação</button>
               </div>
             </div>
           }
@@ -103,16 +102,16 @@
             <div class="aviso-aguardando">
               <p>⏳ Aguardando interesse de alguém.</p>
             </div>
-            <div class="botoes-dono">
-            <button class="btn-editar" [routerLink]="['/vestuario', vestuario().id_vestuario, 'editar']">
-              ✏️ Editar
-            </button>
-            <button class="btn-excluir" (click)="excluir()">🗑️ Excluir</button>
-          </div>
-}
+            <div class="botoes-acao">
+              <button class="btn-editar"
+                [routerLink]="['/vestuario', vestuario().id_vestuario, 'editar']">
+                Editar item
+              </button>
+              <button class="btn-excluir" (click)="excluir()">Excluir</button>
+            </div>
+          }
         }
 
-        <!-- VISÃO DO RECEPTOR -->
         @if (!ehDoador) {
           @if (vestuario().status && !temInteresse) {
             <button class="btn-interesse" (click)="registrarInteresse()">
@@ -121,14 +120,14 @@
           }
           @if (vestuario().id_usuario_receptor === usuarioLogado?.id_usuario) {
             <div class="aviso-seu-interesse">
-              💜 Você registrou interesse neste item. Aguarde o contato do doador.
+              💜 Você registrou interesse. Aguarde o contato do doador.
             </div>
           }
-          @if (!vestuario().status && vestuario().id_usuario_receptor !== usuarioLogado?.id_usuario && temInteresse) {
+          @if (!vestuario().status && temInteresse &&
+               vestuario().id_usuario_receptor !== usuarioLogado?.id_usuario) {
             <button class="btn-reservado" disabled>Item reservado para outro usuário</button>
           }
         }
-
       </div>
     </div>
   }

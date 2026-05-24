@@ -1,40 +1,36 @@
 <div class="pagina">
-
   @if (usuarioLogado) {
     <div class="layout">
 
-      <div class="coluna-perfil">
+      <aside class="coluna-perfil">
         <div class="card-perfil">
           <div class="avatar">{{ usuarioLogado.nome?.charAt(0).toUpperCase() }}</div>
           <h1>{{ usuarioLogado.nome }}</h1>
-          <p class="perfil-local">📍 {{ usuarioLogado.cidade }} - {{ usuarioLogado.estado }}</p>
-          <p class="perfil-email">✉️ {{ usuarioLogado.email }}</p>
-          <p class="perfil-tel">📞 {{ usuarioLogado.telefone }}</p>
-          @if (usuarioLogado.avaliacao_media) {
-            <div class="avaliacao">
-              ⭐ Avaliação média: <strong>{{ usuarioLogado.avaliacao_media }}</strong>
-            </div>
-          }
-          <button class="btn-logout" (click)="logout()">🚪 Sair da conta</button>
+          <div class="info-lista">
+            <p class="info">📍 {{ usuarioLogado.cidade }}, {{ usuarioLogado.estado }}</p>
+            <p class="info">✉️ {{ usuarioLogado.email }}</p>
+            <p class="info">📞 {{ usuarioLogado.telefone }}</p>
+          </div>
+          <a routerLink="/perfil/editar" class="btn-editar-perfil">Editar perfil</a>
+          <button class="btn-logout" (click)="logout()">Sair da conta</button>
         </div>
-      </div>
+      </aside>
 
       <div class="coluna-conteudo">
-
         <div class="secao">
           <h2 class="secao-titulo">Meus itens anunciados</h2>
 
           @if (carregando()) {
-            <div class="estado-vazio">
+            <div class="estado-centro">
               <div class="spinner"></div>
               <p>Carregando...</p>
             </div>
           }
 
           @if (!carregando() && meusItens().length === 0) {
-            <div class="estado-vazio">
+            <div class="estado-centro">
               <span class="estado-icone">📦</span>
-              <p>Você ainda não anunciou nenhum item.</p>
+              <p>Nenhum item anunciado ainda.</p>
               <a routerLink="/vestuario/novo" class="btn-doar">Fazer primeira doação</a>
             </div>
           }
@@ -42,53 +38,35 @@
           @if (!carregando() && meusItens().length > 0) {
             <div class="grid-itens">
               @for (item of meusItens(); track item.id_vestuario) {
-                <div class="card-item" [routerLink]="['/vestuario', item.id_vestuario]">
-                  <div class="card-img">
-                    <span class="card-icone">{{ iconeCategoria(item) }}</span>
-                    <span class="badge" [class]="'badge-' + badgeStatus(item)">
-                      @if (badgeStatus(item) === 'doado') { Doado }
-                      @if (badgeStatus(item) === 'reservado') { Reservado }
-                      @if (badgeStatus(item) === 'disponivel') { Disponível }
-                    </span>
+                <a class="card-item" [routerLink]="['/vestuario', item.id_vestuario]">
+                  <div class="card-topo">
+                    <span class="card-icone">{{ icone(item) }}</span>
                   </div>
-                  <div class="card-info">
-                    <p class="card-nome">{{ item.produto }}</p>
-                    <p class="card-sub">{{ item.categoria }} · {{ item.tipo || '' }}</p>
+                  <div class="card-corpo">
+                    <div class="card-cabecalho">
+                      <p class="card-nome">{{ item.produto }}</p>
+                      <span class="badge" [class]="'badge-' + badgeStatus(item)">
+                        @if (badgeStatus(item) === 'reservado') { Reservado }
+                        @else { Disponível }
+                      </span>
+                    </div>
+                    <p class="card-sub">
+                      {{ item.categoria }}
+                      @if (item.tipo) { · {{ item.tipo }} }
+                      @if (item.cor) { · {{ item.cor }} }
+                    </p>
+                    <p class="card-tamanho">
+                      @if (item.categoria === 'calcado') { Nº {{ item.tamanho_calcado }} }
+                      @else { Tam. {{ item.tamanho_roupa }} }
+                    </p>
                   </div>
-                </div>
+                </a>
               }
             </div>
           }
         </div>
-
-        @if (historico().length > 0) {
-          <div class="secao">
-            <h2 class="secao-titulo">Histórico de doações</h2>
-            <div class="lista-historico">
-              @for (h of historico(); track h.id_historico) {
-                <div class="historico-item">
-                  <div class="historico-icone">✅</div>
-                  <div class="historico-info">
-                    <p class="historico-data">{{ h.data_conclusao }}</p>
-                    <p class="historico-desc">
-                      @if (h.id_doador === usuarioLogado.id_usuario) {
-                        Você doou um item
-                      } @else {
-                        Você recebeu um item
-                      }
-                    </p>
-                    @if (h.nota_para_doador) {
-                      <p class="historico-nota">⭐ Nota: {{ h.nota_para_doador }}</p>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-        }
-
       </div>
+
     </div>
   }
-
 </div>

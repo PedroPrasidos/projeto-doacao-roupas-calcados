@@ -1,0 +1,129 @@
+.pagina {
+  background: #F5F3FF;
+  min-height: 100vh;
+  padding: 32px 20px 48px;
+  box-sizing: border-box;
+}
+
+.card-form {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 580px;
+  margin: 0 auto;
+  border: 0.5px solid #E5E7EB;
+}
+
+.btn-voltar {
+  display: inline-block;
+  color: #6B21A8;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+.btn-voltar:hover { text-decoration: underline; }
+
+h1 { font-size: 1.5rem; font-weight: 700; color: #1C1C1E; margin: 0 0 6px; }
+.subtitulo { font-size: 0.95rem; color: #6B7280; margin: 0 0 28px; }
+
+.secao { margin-bottom: 24px; }
+
+.secao-titulo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6B21A8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid #EDE9FE;
+}
+
+.campo { margin-bottom: 14px; }
+
+.linha-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1C1C1E;
+  margin-bottom: 6px;
+}
+
+.obrigatorio { color: #6B21A8; }
+
+input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #1C1C1E;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+input:focus {
+  border-color: #6B21A8;
+  box-shadow: 0 0 0 3px rgba(107,33,168,0.1);
+}
+
+.aviso-email {
+  background: #F5F3FF;
+  border: 1.5px solid #EDE9FE;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #6B7280;
+  margin-bottom: 20px;
+}
+
+.alerta-erro {
+  background: #FEF2F2;
+  border: 1.5px solid #FECACA;
+  color: #991B1B;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.alerta-sucesso {
+  background: #F0FDF4;
+  border: 1.5px solid #BBF7D0;
+  color: #166534;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.btn-salvar {
+  width: 100%;
+  background: #6B21A8;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-salvar:hover:not(:disabled) { background: #581C87; }
+.btn-salvar:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+@media (max-width: 500px) {
+  .card-form { padding: 28px 16px; }
+  .linha-dupla { grid-template-columns: 1fr; }
+}

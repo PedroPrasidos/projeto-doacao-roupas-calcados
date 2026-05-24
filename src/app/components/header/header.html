@@ -1,11 +1,15 @@
 <header class="header">
   <div class="header-top">
-    <span class="menu-icon" (click)="toggleMenu()">☰</span>
+    <button class="menu-btn" (click)="toggleMenu()" aria-label="Abrir menu">
+      <span class="menu-linha"></span>
+      <span class="menu-linha"></span>
+      <span class="menu-linha"></span>
+    </button>
     <a routerLink="/vestuario" class="logo">💜 WearDon</a>
-    <a routerLink="/perfil" class="perfil-icon" (click)="fecharMenu()">👤</a>
+    <div class="header-espaco"></div>
   </div>
 
-  <nav class="nav">
+  <nav class="nav" aria-label="Navegação principal">
     <a routerLink="/vestuario" routerLinkActive="ativo"
        [routerLinkActiveOptions]="{exact:true}">Explorar</a>
     <a routerLink="/vestuario/novo" routerLinkActive="ativo">Doar</a>
@@ -14,19 +18,24 @@
   </nav>
 
   @if (menuAberto) {
-    <div class="overlay" (click)="fecharMenu()"></div>
-    <div class="menu-lateral">
-      <div class="menu-usuario">
-        @if (usuarioLogado) {
-          <p class="menu-nome">{{ usuarioLogado.nome }}</p>
-          <p class="menu-email">{{ usuarioLogado.email }}</p>
-        }
-      </div>
-      <a routerLink="/vestuario" (click)="fecharMenu()">🔍 Explorar</a>
-      <a routerLink="/vestuario/novo" (click)="fecharMenu()">💜 Doar</a>
-      <a routerLink="/perfil" (click)="fecharMenu()">👤 Perfil</a>
-      <a routerLink="/historico" (click)="fecharMenu()">📋 Histórico</a>
-      <a (click)="logout()" class="menu-logout">🚪 Sair</a>
+    <div class="overlay" (click)="fecharMenu()" aria-hidden="true"></div>
+    <div class="menu-lateral" role="dialog" aria-label="Menu lateral">
+      @if (usuarioLogado) {
+        <div class="menu-usuario">
+          <div class="menu-avatar">{{ usuarioLogado.nome?.charAt(0).toUpperCase() }}</div>
+          <div>
+            <p class="menu-nome">{{ usuarioLogado.nome }}</p>
+            <p class="menu-email">{{ usuarioLogado.email }}</p>
+          </div>
+        </div>
+      }
+      <nav class="menu-links">
+        <a routerLink="/vestuario" (click)="fecharMenu()">Explorar</a>
+        <a routerLink="/vestuario/novo" (click)="fecharMenu()">Doar</a>
+        <a routerLink="/perfil" (click)="fecharMenu()">Perfil</a>
+        <a routerLink="/historico" (click)="fecharMenu()">Histórico</a>
+      </nav>
+      <button class="menu-logout" (click)="logout()">Sair da conta</button>
     </div>
   }
 </header>

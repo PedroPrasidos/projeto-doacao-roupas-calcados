@@ -1,0 +1,83 @@
+<div class="pagina">
+  <div class="card-form">
+    <a class="btn-voltar" routerLink="/perfil">← Voltar</a>
+    <h1>Editar perfil</h1>
+    <p class="subtitulo">Atualize suas informações pessoais</p>
+
+    <div class="secao">
+      <h2 class="secao-titulo">Dados pessoais</h2>
+      <div class="campo">
+        <label for="nome">Nome completo <span class="obrigatorio">*</span></label>
+        <input id="nome" type="text" [(ngModel)]="nome" placeholder="Seu nome completo" />
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label for="nascimento">Data de nascimento <span class="obrigatorio">*</span></label>
+          <input id="nascimento" type="date" [(ngModel)]="data_nascimento" />
+        </div>
+        <div class="campo">
+          <label for="telefone">Telefone <span class="obrigatorio">*</span></label>
+          <input id="telefone" type="text" [(ngModel)]="telefone" placeholder="(45) 99999-9999" />
+        </div>
+      </div>
+    </div>
+
+    <div class="secao">
+      <h2 class="secao-titulo">Acesso</h2>
+      <div class="campo">
+        <label for="email">E-mail <span class="obrigatorio">*</span></label>
+        <input id="email" type="email" [(ngModel)]="email" placeholder="seu@email.com" />
+      </div>
+      <div class="campo">
+        <label for="senha">Senha <span class="obrigatorio">*</span></label>
+        <input id="senha" type="password" [(ngModel)]="senha" placeholder="••••••••" />
+      </div>
+    </div>
+
+    <div class="secao">
+      <h2 class="secao-titulo">Endereço</h2>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label for="cidade">Cidade <span class="obrigatorio">*</span></label>
+          <input id="cidade" type="text" [(ngModel)]="cidade" placeholder="Sua cidade" />
+        </div>
+        <div class="campo">
+          <label for="estado">Estado <span class="obrigatorio">*</span></label>
+          <input id="estado" type="text" [(ngModel)]="estado" placeholder="PR" maxlength="2" />
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label for="cep">CEP</label>
+          <input id="cep" type="text" [(ngModel)]="cep" placeholder="99999-999" />
+        </div>
+        <div class="campo">
+          <label for="bairro">Bairro</label>
+          <input id="bairro" type="text" [(ngModel)]="bairro" placeholder="Seu bairro" />
+        </div>
+      </div>
+      <div class="linha-dupla">
+        <div class="campo">
+          <label for="logradouro">Logradouro</label>
+          <input id="logradouro" type="text" [(ngModel)]="logradouro" placeholder="Rua, Av..." />
+        </div>
+        <div class="campo">
+          <label for="numero">Número</label>
+          <input id="numero" type="text" [(ngModel)]="numero" placeholder="123" />
+        </div>
+      </div>
+    </div>
+
+    @if (erro()) {
+      <div class="alerta-erro" role="alert">{{ erro() }}</div>
+    }
+    @if (sucesso()) {
+      <div class="alerta-sucesso" role="status">{{ sucesso() }}</div>
+    }
+
+    <button class="btn-salvar" (click)="salvar()" [disabled]="carregando()">
+      @if (carregando()) { Salvando... }
+      @else { Salvar alterações }
+    </button>
+  </div>
+</div>
