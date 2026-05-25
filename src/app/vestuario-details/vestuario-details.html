@@ -44,6 +44,12 @@
               <span class="atributo-valor">{{ vestuario().cor }}</span>
             </div>
           }
+          @if (vestuario().tipo) {
+            <div class="atributo">
+              <span class="atributo-label">Tipo</span>
+              <span class="atributo-valor">{{ vestuario().tipo }}</span>
+          </div>
+          }
           @if (vestuario().genero) {
             <div class="atributo">
               <span class="atributo-label">Gênero</span>

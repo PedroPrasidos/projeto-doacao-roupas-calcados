@@ -17,6 +17,8 @@
       (click)="aplicarFiltro('genero', filtros.genero === 'feminino' ? '' : 'feminino')">Feminino</button>
     <button class="chip" [class.ativo]="filtros.genero === 'unissex'"
       (click)="aplicarFiltro('genero', filtros.genero === 'unissex' ? '' : 'unissex')">Unissex</button>
+    <button class="chip" [class.ativo]="filtros.faixa_etaria === 'adulto'"
+      (click)="aplicarFiltro('faixa_etaria', filtros.faixa_etaria === 'adulto' ? '' : 'adulto')">Adulto</button>
     <button class="chip" [class.ativo]="filtros.faixa_etaria === 'infantil'"
       (click)="aplicarFiltro('faixa_etaria', filtros.faixa_etaria === 'infantil' ? '' : 'infantil')">Infantil</button>
     <button class="chip" [class.ativo]="filtros.condicao === 'novo'"
@@ -41,9 +43,10 @@
   }
 
   @if (!carregando() && !erro() && vestuarios().length === 0) {
-    <div class="estado-centro">
-      <span class="estado-icone" aria-hidden="true">🔍</span>
-      <p>Nenhum item encontrado com esses filtros.</p>
+    <div class="estado-vazio">
+      <div class="estado-vazio-icone">🔍</div>
+      <h3>Nenhum item encontrado</h3>
+      <p>Não há itens disponíveis com esses filtros no momento.</p>
       <button class="btn-limpar" (click)="limparFiltros()">Limpar filtros</button>
     </div>
   }
@@ -59,7 +62,10 @@
           </div>
           <div class="card-corpo">
             <p class="card-nome">{{ item.produto }}</p>
-            <p class="card-detalhe">{{ item.tipo || item.categoria }} {{ item.cor ? '· ' + item.cor : '' }}</p>
+            <p class="card-detalhe">
+              {{ item.tipo || item.categoria }}
+              {{ item.cor ? '· ' + item.cor : '' }}
+            </p>
             <div class="card-tags">
               <span class="tag">{{ tamanho(item) }}</span>
               @if (item.condicao) {
